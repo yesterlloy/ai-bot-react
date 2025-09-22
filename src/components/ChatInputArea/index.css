@@ -1,0 +1,132 @@
+
+
+
+/* ChatInputArea组件样式 */
+.chat-input-container {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e9ecef;
+}
+.chat-input-cont-body {
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+.chat-textarea-wrapper {
+  margin-bottom: 0.75rem;
+}
+
+.chat-textarea {
+  border: 0 none;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.chat-textarea:focus {
+  border-color: #667eea;
+}
+
+.chat-textarea:disabled {
+  background: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.chat-buttons-area {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.deep-thinking-button {
+  line-height: 30px;
+  padding: 0 10px;
+  border: 1px solid #667eea;
+  border-radius: 4px;
+  background: white;
+  color: #667eea;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.deep-thinking-button:hover:not(:disabled),
+.deep-thinking-button.active {
+  background: #e5eeff;
+  color: #0057ff;
+}
+
+.deep-thinking-button:disabled {
+  border-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.send-button {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  outline: none;
+  margin-right: 10px;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.send-button:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 发送中状态 */
+.send-button.sending {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.send-button.sending:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .chat-input-container {
+    padding: 0.75rem;
+  }
+  
+  .chat-buttons-area {
+    justify-content: space-between;
+  }
+  
+  .deep-thinking-button {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

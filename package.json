@@ -1,0 +1,61 @@
+{
+  "name": "@yester/ai-bot-react",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.1.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "build:lib": "tsc -b tsconfig.lib.json && vite build --mode lib",
+    "copy": "cp -rf dist ~/www/yunli/easydata-fe/node_modules/@yester/ai-bot-react/"
+  },
+  "main": "dist/ai-bot-component.umd.cjs",
+  "module": "dist/ai-bot-component.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/ai-bot-component.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/ai-bot-component.umd.cjs"
+      }
+    },
+    "./dist/ai-bot-react.css": "./dist/ai-bot-react.css"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 ",
+    "react-dom": "^18.0.0 "
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "axios": "^0.27.2",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "path": "^0.12.7",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "tsconfig.lib.json",
+    "tsconfig.json",
+    "eslist.config.js"
+  ]
+}

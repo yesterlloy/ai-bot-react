@@ -1,0 +1,53 @@
+/* BotButton组件样式 */
+
+/* 圆形按钮容器 */
+.bot-button-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1001;
+  transition: transform 0.1s ease-out;
+}
+.bot-button-container.hidden {
+  display: none;
+}
+
+/* 圆形按钮样式 */
+.bot-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.bot-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.bot-button.active {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: scale(1.05);
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+  .bot-button-container {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  .bot-button {
+    width: 56px;
+    height: 56px;
+  }
+}

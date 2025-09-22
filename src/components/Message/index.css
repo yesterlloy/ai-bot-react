@@ -1,0 +1,154 @@
+/* 聊天消息区域 */
+
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+
+/* 消息样式 */
+.message {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.bot {
+  align-items: flex-start;
+}
+
+.message-content {
+  max-width: 75%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.message.user .message-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .message-content {
+  background: white;
+  color: #333;
+  border: 1px solid #e9ecef;
+  border-bottom-left-radius: 4px;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #adb5bd;
+  margin-top: 0.25rem;
+}
+
+.msg-thinking-title {
+    position: relative;
+}
+
+.message.msg-thinking {
+    padding: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.message.msg-thinking .msg-thinking-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message.msg-thinking.hidden {
+    width: 200px;
+}
+
+.msg-thinking-title .toggle-icon {
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.message.msg-thinking .message-content {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.5);
+    height: auto;
+    max-width: 100%;
+}
+.message .message-content pre {
+    white-space: pre-wrap;
+}
+
+.message.msg-thinking.hidden .message-content {
+    height: 0;
+    line-height: 0;
+    padding: 0;
+}
+
+.rslt-msg-box {
+    margin-bottom: 10px;
+}
+
+.rslt-msg-box .rslt-tit {
+    font-weight: 500;
+}
+
+.rslt-msg-code {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+.rslt-msg-table {
+    width: 100%;
+    padding: 16px;
+}
+
+.rslt-msg-tbl-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.rslt-msg-tbl-row span {
+  border: 1px solid #e9ecef;
+  width: 33%;
+  padding: 4px 6px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-wrap: wrap;
+}
+.rslt-msg-tbl-row:not(:first-child) span {
+  border-top: none;
+}
+.rslt-msg-tbl-row span:not(:first-child) {
+  border-left: none;
+}
+
+.rslt-msg-tbl-row.th {
+    font-weight: 500;
+}
+
+.message-opt {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+.opt-button {
+  margin-left: 8px;
+  cursor: pointer;
+}
