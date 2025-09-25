@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "build:lib": "tsc -b tsconfig.lib.json && vite build --mode lib",
-    "copy": "cp -rf dist ~/www/yunli/easydata-fe/node_modules/@yester/ai-bot-react/"
+    "copy": "cp -rf dist /Volumes/yang1t/www/yl/easydata-fe/node_modules/@yester/ai-bot-react/"
   },
   "main": "dist/ai-bot-component.umd.cjs",
   "module": "dist/ai-bot-component.js",
@@ -29,10 +29,6 @@
       }
     },
     "./dist/ai-bot-react.css": "./dist/ai-bot-react.css"
-  },
-  "peerDependencies": {
-    "react": "^18.0.0 ",
-    "react-dom": "^18.0.0 "
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
@@ -57,5 +53,11 @@
     "tsconfig.lib.json",
     "tsconfig.json",
     "eslist.config.js"
-  ]
+  ],
+  "packageManager": "yarn@4.10.3+sha512.c38cafb5c7bb273f3926d04e55e1d8c9dfa7d9c3ea1f36a4868fa028b9e5f72298f0b7f401ad5eb921749eb012eb1c3bb74bf7503df3ee43fd600d14a018266f",
+  "dependencies": {
+    "corepack": "^0.34.0",
+    "react": "^18.0.0 ",
+    "react-dom": "^18.0.0 "
+  }
 }

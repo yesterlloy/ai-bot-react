@@ -4,13 +4,16 @@
 /* ChatInputArea组件样式 */
 .chat-input-container {
   padding: 1rem;
-  background: white;
+  background: #EFF1F7;
   border-top: 1px solid #e9ecef;
 }
 .chat-input-cont-body {
-  border-radius: 4px;
-  border: 1px solid #e9ecef;
+  background-color: #fff;
+  border-radius: 8px;
   padding-bottom: 10px;
+  box-shadow: 0px 8px 8px 0px rgba(23,66,97,0.12);
+  border: 1px solid #C1CCD4;
+  overflow: hidden;
 }
 
 .chat-textarea-wrapper {
@@ -24,6 +27,7 @@
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s ease;
+  min-height: 97px;
 }
 
 .chat-textarea:focus {
@@ -43,22 +47,24 @@
 }
 
 .deep-thinking-button {
-  line-height: 30px;
+  line-height: 24px;
+  font-size: 14px;
   padding: 0 10px;
   border: 1px solid #667eea;
-  border-radius: 4px;
+  border-radius: 8px;
   background: white;
   color: #667eea;
   cursor: pointer;
-  font-size: 0.875rem;
   transition: all 0.2s ease;
   outline: none;
+  display: flex;
+  align-items: center;
 }
 
 .deep-thinking-button:hover:not(:disabled),
 .deep-thinking-button.active {
   background: #e5eeff;
-  color: #0057ff;
+  color: #4C84FF;
 }
 
 .deep-thinking-button:disabled {
@@ -69,10 +75,10 @@
 }
 
 .send-button {
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #4C84FF;
   border: none;
   color: white;
   cursor: pointer;
@@ -104,6 +110,11 @@
 .send-button.sending:hover:not(:disabled) {
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+}
+
+.chat-slot-input-top {
+  padding: 4px 0;
+  font-size: 14px;
 }
 
 @keyframes pulse {

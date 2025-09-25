@@ -10,6 +10,20 @@ export default defineConfig(() => ({
       '@': resolve(__dirname, 'src')
     }
   },
+  // 添加服务器配置
+  server: {
+    proxy: {
+      // 字符串简写方式
+      '/api': 'http://localhost:3000',
+      // 或使用对象完整配置
+      '/report-ai': {
+        target: 'http://172.26.30.146:31589',
+        // target: 'http://localhost:8001',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/report-ai/, '')
+      }
+    }
+  },
   build: {
     // 库模式配置
     lib: {
@@ -31,5 +45,5 @@ export default defineConfig(() => ({
     },
     emptyOutDir: false,
     outDir: 'dist'
-  } 
+  }
 }))

@@ -25,6 +25,7 @@ export interface ResultMessage {
   generated_sql: string;
   dynamic_params: DynamicParams[];
   explanation: string
+  error_detail?: string
 }
 
 // 定义状态类型
@@ -71,28 +72,28 @@ function botReducer(state: BotState, action: BotAction): BotState {
 
     case 'TOGGLE_FULL_SCREEN':
       return { ...state, isFullScreen: !state.isFullScreen };
-      
+
     case 'SET_INPUT_VALUE':
       return { ...state, inputValue: action.payload };
-      
+
     case 'SEND_MESSAGE':
       if (!state.inputValue.trim()) return state;
-      
+
       const userMessage: IMessage = {
         id: Date.now().toString() + '_user',
         content: state.inputValue,
         sender: 'user',
         timestamp: new Date()
       };
-      
-      
+
+
       return {
         ...state,
         messages: [...state.messages, userMessage],
         inputValue: '',
         isTyping: true
       };
-      
+
     case 'ADD_MESSAGE':
       return {
         ...state,
@@ -105,15 +106,15 @@ function botReducer(state: BotState, action: BotAction): BotState {
       msgs.splice(state.messages.length - 1, 1, action.payload)
       return {
         ...state,
-        messages: msgs 
+        messages: msgs
       };
-      
+
     case 'SET_TYPING':
       return { ...state, isTyping: action.payload };
-      
+
     case 'CLEAR_MESSAGES':
       return { ...state, messages: [] };
-      
+
     default:
       return state;
   }
@@ -162,13 +163,13 @@ export interface IConfig {
   name?: string
   slot?: {
     // 输入框上部
-    inputTop?: ReactNode ;
+    inputTop?: ReactNode;
 
     // 结果下部
-    resultBottom?: ReactNode ;
+    resultBottom?: ReactNode;
   },
   hook?: {
-    beforeSendMessage?: (body:IBaseInfo, config: IConfig)  =>  Boolean;
+    beforeSendMessage?: (body: IBaseInfo, config: IConfig) => Boolean;
   }
 }
 
@@ -184,41 +185,41 @@ export function BotProvider({ children, config }: ProviderProps) {
   const [state, dispatch] = useReducer(botReducer, initialState);
   // 使用useRef保存最新状态的引用
   const stateRef = React.useRef(state);
-  
+
   // 每次状态更新时，更新ref
   React.useEffect(() => {
     stateRef.current = state;
   }, [state]);
-  
-  if(!config.name) {
+
+  if (!config.name) {
     config.name = DEFAULT_NAME
   }
-  
+
   // 自定义Hook方法
   const toggleOpen = () => dispatch({ type: 'TOGGLE_OPEN' });
 
   const toggleDeepThinking = () => dispatch({ type: 'TOGGLE_DEEP_THINKING' });
   const toggleFullScreen = () => dispatch({ type: 'TOGGLE_FULL_SCREEN' });
-  
-  const setInputValue = (value: string) => 
+
+  const setInputValue = (value: string) =>
     dispatch({ type: 'SET_INPUT_VALUE', payload: value });
-  
+
   const sendMessage = (msgStr?: string) => {
     let bd = config?.baseInfo || {}
-    if(state.deepThinking) {
-      bd.nl_query = msgStr || state.inputValue 
+    if (state.deepThinking) {
+      bd.nl_query = msgStr || state.inputValue
     } else {
       bd.nl_query = (msgStr || state.inputValue) + ' no_think'
     }
 
-    if(msgStr) {
-      dispatch({ type: 'SET_INPUT_VALUE', payload: msgStr})
+    if (msgStr) {
+      dispatch({ type: 'SET_INPUT_VALUE', payload: msgStr })
     }
 
     // 自定义hook 发送前处理
-    if(config.hook?.beforeSendMessage) {
+    if (config.hook?.beforeSendMessage) {
       let res = config.hook.beforeSendMessage(bd, config)
-      if(!res) {
+      if (!res) {
         return
       }
     }
@@ -232,16 +233,16 @@ export function BotProvider({ children, config }: ProviderProps) {
       onChunk: (chunk: string) => {
         // 使用stateRef.current获取最新状态
         const latestState = stateRef.current;
-        let data:IMessage = parseChunk(chunk)
+        let data: IMessage | null = parseChunk(chunk)
         console.log('chunk', latestState.isTyping, data);
 
         // 停止状态不输出信息
-        if(!latestState.isTyping) {
+        if (!latestState.isTyping || data === null) {
           return
         }
 
         // 不开思考模式也会返回thingk类型
-        if(!latestState.deepThinking && data.type === 'thinking') {
+        if (!latestState.deepThinking && data.type === 'thinking') {
           return
         }
 
@@ -250,19 +251,20 @@ export function BotProvider({ children, config }: ProviderProps) {
         }
 
         // 初始化思考消息
-        if(data.type === 'thinking' && lastMessage === null) {
+        if (data.type === 'thinking' && lastMessage === null) {
           lastMessage = data
-          dispatch({ type: 'ADD_MESSAGE', payload: data});
+          dispatch({ type: 'ADD_MESSAGE', payload: data });
           return
         }
 
-        if(data.type === 'thinking' && lastMessage !== null) {
+        // 追加思考内容
+        if (data.type === 'thinking' && lastMessage !== null) {
           lastMessage.content = lastMessage.content + '\n' + data.content
-          dispatch({ type: 'UPDATE_MESSAGE', payload: lastMessage});
+          dispatch({ type: 'UPDATE_MESSAGE', payload: lastMessage });
           return
         }
 
-        dispatch({ type: 'ADD_MESSAGE', payload: data});
+        dispatch({ type: 'ADD_MESSAGE', payload: data });
       },
       onComplete: (result: string) => {
         console.log('result', result);
@@ -270,13 +272,22 @@ export function BotProvider({ children, config }: ProviderProps) {
       },
       onError: (error: Error) => {
         console.log('error', error);
+        dispatch({
+          type: 'ADD_MESSAGE', payload: {
+            id: Date.now() + '',
+            timestamp: new Date(),
+            sender: 'bot',
+            content: JSON.stringify(error.message || '网络错误'),
+          }
+        });
+        dispatch({ type: 'SET_TYPING', payload: false });
       },
     });
-    
+
   };
-  
+
   const clearMessages = () => dispatch({ type: 'CLEAR_MESSAGES' });
-  
+
   const contextValue = {
     state,
     dispatch,
@@ -288,7 +299,7 @@ export function BotProvider({ children, config }: ProviderProps) {
     clearMessages,
     config,
   };
-  
+
   return (
     <BotContext.Provider value={contextValue}>
       {children}

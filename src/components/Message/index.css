@@ -1,5 +1,10 @@
 /* 聊天消息区域 */
-
+.chat-messages {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  /* background: #f8f9fa; */
+}
 
 /* 空状态 */
 .empty-state {
@@ -20,6 +25,10 @@
   text-align: left;
 }
 
+.message * {
+  overflow-anchor: auto;
+}
+
 .message.user {
   align-items: flex-end;
 }
@@ -28,26 +37,43 @@
   align-items: flex-start;
 }
 
+.message-content-avatar {
+  display: flex;
+  align-items: flex-start;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .message-content {
   max-width: 75%;
-  padding: 0.75rem 1rem;
   border-radius: 12px;
   font-size: 0.95rem;
   line-height: 1.4;
   word-wrap: break-word;
+  padding: 10px;
 }
 
 .message.user .message-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #B4CBFF;
+  color: #1C1F23;
   border-bottom-right-radius: 4px;
 }
 
 .message.bot .message-content {
-  background: white;
   color: #333;
-  border: 1px solid #e9ecef;
-  border-bottom-left-radius: 4px;
 }
 
 .message-time {
@@ -58,21 +84,37 @@
 
 .msg-thinking-title {
     position: relative;
+    background: #DDE3F0;
+}
+.msg-thinking-title:hover {
+  background: #cbd7f0;
 }
 
 .message.msg-thinking {
-    padding: 10px;
-    border: 1px solid #e9ecef;
+    /* padding: 10px; */
+    /* border: 1px solid #e9ecef; */
+}
+
+.msg-thinking-container {
+  border-radius: 8px;
+  background: #DDE3F0;
 }
 
 .message.msg-thinking .msg-thinking-title {
+  top: -24px;
+  position: sticky;
+  padding: 10px;
+  font-size: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 900;
+
+    border-radius: 8px 8px 0 0;
 }
 
-.message.msg-thinking.hidden {
-    width: 200px;
+.message.msg-thinking .message-content.hidden {
+  display: none;
 }
 
 .msg-thinking-title .toggle-icon {
@@ -98,11 +140,12 @@
 }
 
 .rslt-msg-box {
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .rslt-msg-box .rslt-tit {
     font-weight: 500;
+    margin-bottom: 6px;
 }
 
 .rslt-msg-code {
@@ -114,7 +157,7 @@
 
 .rslt-msg-table {
     width: 100%;
-    padding: 16px;
+    padding: 6px 16px;
 }
 
 .rslt-msg-tbl-row {

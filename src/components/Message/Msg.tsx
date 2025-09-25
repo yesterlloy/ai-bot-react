@@ -3,7 +3,7 @@ import type { IMessage } from '@/store/aiBotContext'
 import Result from './Result'
 
 interface MsgProps {
-  message: IMessage 
+  message: IMessage
 }
 
 const Msg: React.FC<MsgProps> = (props: MsgProps) => {
@@ -14,8 +14,7 @@ const Msg: React.FC<MsgProps> = (props: MsgProps) => {
   ) : (
     <div className={`message ${message.sender}`}>
       <div className="message-content">{message.content}</div>
-      <div className="message-time">
-      </div>
+      <div className="message-time"></div>
     </div>
   )
 }

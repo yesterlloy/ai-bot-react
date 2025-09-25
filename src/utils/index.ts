@@ -2,23 +2,24 @@
 import React from 'react';
 import type { IMessage } from '@/store/aiBotContext'
 
-export const parseChunk = (chunk: string): IMessage => {
+export const parseChunk = (chunk: string): IMessage | null => {
   try {
     const json = JSON.parse(chunk) as IMessage;
-    if(!json.id) {
-        json.id = Date.now().toString() + '_bot';
+    if (!json.id) {
+      json.id = Date.now().toString() + '_bot';
     }
-    if(!json.sender) {
-        json.sender = 'bot';
+    if (!json.sender) {
+      json.sender = 'bot';
     }
     return json;
   } catch (error) {
     console.log('error', error);
-    return  {
-        id: Date.now().toString(),
-        content: chunk,
-        sender: 'bot',
-        timestamp: new Date()
+    return null
+    return {
+      id: Date.now().toString(),
+      content: chunk,
+      sender: 'bot',
+      timestamp: new Date()
     };
   }
 }
@@ -34,12 +35,12 @@ export function isComponentType(value: any) {
   if (typeof value === 'function') {
     return value.name.charAt(0) === value.name.charAt(0).toUpperCase();
   }
-  
+
   // 类组件：继承自React.Component
   if (value && value.prototype && value.prototype.isReactComponent) {
     return true;
   }
-  
+
   return false;
 }
 
