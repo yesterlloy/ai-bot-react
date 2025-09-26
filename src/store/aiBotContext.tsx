@@ -163,10 +163,10 @@ export interface IConfig {
   name?: string
   slot?: {
     // 输入框上部
-    inputTop?: ReactNode;
+    inputTop?: ReactNode | [string | React.FunctionComponent<any> | React.ComponentClass<any>, any];
 
     // 结果下部
-    resultBottom?: ReactNode;
+    resultBottom?: ReactNode | [string | React.FunctionComponent<any> | React.ComponentClass<any>, any];
   },
   hook?: {
     beforeSendMessage?: (body: IBaseInfo, config: IConfig) => Boolean;

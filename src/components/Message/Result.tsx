@@ -1,7 +1,7 @@
 import React from 'react'
 import type { IMessage, ResultMessage } from '@/store/aiBotContext'
 import { useBot } from '@/store/aiBotContext'
-import { isComponentType } from '@/utils';
+// import { isComponentType } from '@/utils';
 import botAvatar from '@/assets/bot-avatar.png'
 
 interface ResultProps {
@@ -77,8 +77,11 @@ const Result: React.FC<ResultProps> = (props: ResultProps) => {
 
           <div className="message-opt">
             {config.slot?.resultBottom ?
-              isComponentType(config.slot.resultBottom) ?
-                React.createElement(config.slot.resultBottom as any, { message }) :
+              Array.isArray(config.slot.resultBottom) ?
+                React.createElement(config.slot.resultBottom[0], {
+                  ...config.slot.resultBottom[1],
+                  message
+                }) :
                 config.slot?.resultBottom :
               null}
             {/* <button className="opt-button apply-sql" title="应用SQL">

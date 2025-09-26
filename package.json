@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "build:lib": "tsc -b tsconfig.lib.json && vite build --mode lib",
-    "copy": "cp -rf dist /Volumes/yang1t/www/yl/easydata-fe/node_modules/@yester/ai-bot-react/"
+    "copy": "cp -rf dist /Volumes/yang1t/www/yl/easydata-fe/node_modules/@yester/ai-bot-react/ /Volumes/yang1t/www/yl/mid-platform-smartreport-fe/node_modules/@yester/ai-bot-react/"
   },
   "main": "dist/ai-bot-component.umd.cjs",
   "module": "dist/ai-bot-component.js",

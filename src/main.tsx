@@ -53,15 +53,7 @@ createRoot(document.getElementById('root')!).render(
       sseUrl: '/report-ai/generate-sql',
       name: "SQL助手",
       slot: {
-        inputTop: <div>
-          <span>问题属地：</span>
-          <select name="problemLocation" id="problemLocation">
-            <option value="佛山市">佛山市</option>
-            <option value="顺德区">顺德区</option>
-            <option value="南海区">南海区</option>
-            <option value="高明区">高明区</option>
-          </select>
-        </div>
+        inputTop: ['div', { id: 'aa' }]
       }
     }}>
       <App />
