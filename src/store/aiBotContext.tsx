@@ -5,13 +5,27 @@ import { parseChunk } from '@/utils';
 import { DEFAULT_NAME } from '@/config'
 
 
+interface ISqlMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 // 定义消息类型
 export interface IMessage {
   id: string;
   content: string;
   sender: 'user' | 'bot';
   timestamp: Date;
-  type?: 'thinking' | 'result';
+  type?: 'thinking' | 'result' | 'operator';
+
+  operation?: ReactNode;
+
+  //sql相关
+  dynamic_params?: DynamicParams[];
+  explanation?: string
+  sql?: string;
+  messages?: ISqlMessage[];
+  status?: 'success' | 'error';
 }
 interface DynamicParams {
   param_name: string;
@@ -161,6 +175,7 @@ export interface IConfig {
   baseInfo: IBaseInfo;
   sseUrl: string;
   name?: string
+  hideDeepThinking?: boolean;
   slot?: {
     // 输入框上部
     inputTop?: ReactNode | [string | React.FunctionComponent<any> | React.ComponentClass<any>, any];
@@ -170,6 +185,8 @@ export interface IConfig {
   },
   hook?: {
     beforeSendMessage?: (body: IBaseInfo, config: IConfig) => Boolean;
+    afterReceivedMessage?: (msg: IMessage | null, config: IConfig) => IMessage;
+    afterClose?: (config: IConfig) => void;
   }
 }
 
@@ -189,6 +206,9 @@ export function BotProvider({ children, config }: ProviderProps) {
   // 每次状态更新时，更新ref
   React.useEffect(() => {
     stateRef.current = state;
+    if (!state.isOpen) {
+      config.hook?.afterClose?.(config)
+    }
   }, [state]);
 
   if (!config.name) {
@@ -205,6 +225,7 @@ export function BotProvider({ children, config }: ProviderProps) {
     dispatch({ type: 'SET_INPUT_VALUE', payload: value });
 
   const sendMessage = (msgStr?: string) => {
+    console.log('sendMessage config', config)
     let bd = config?.baseInfo || {}
     if (state.deepThinking) {
       bd.nl_query = msgStr || state.inputValue
@@ -235,6 +256,11 @@ export function BotProvider({ children, config }: ProviderProps) {
         const latestState = stateRef.current;
         let data: IMessage | null = parseChunk(chunk)
         console.log('chunk', latestState.isTyping, data);
+
+        // 自定义hook 接收后处理
+        if (config.hook?.afterReceivedMessage) {
+          data = config.hook.afterReceivedMessage(data, config)
+        }
 
         // 停止状态不输出信息
         if (!latestState.isTyping || data === null) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { IMessage, ResultMessage } from '@/store/aiBotContext'
+import type { IMessage } from '@/store/aiBotContext'
 import { useBot } from '@/store/aiBotContext'
 // import { isComponentType } from '@/utils';
 import botAvatar from '@/assets/bot-avatar.png'
@@ -11,8 +11,8 @@ interface ResultProps {
 
 const Result: React.FC<ResultProps> = (props: ResultProps) => {
   const { message } = props
-  let cont: ResultMessage = JSON.parse(message.content)
-  console.log('Result', cont)
+  // let cont: ResultMessage = JSON.parse(message.content)
+  console.log('Result', message)
   const { config } = useBot()
 
   return (
@@ -26,36 +26,32 @@ const Result: React.FC<ResultProps> = (props: ResultProps) => {
         </div>
         <div className="message-content">
 
-          {cont.status === 'error' ? (
+          {message.status === 'error' ? (
             <div>
-              <div>{cont.message}</div>
-              <pre className='rslt-msg-error'>{cont.error_detail}</pre>
+              <div>发生错误：</div>
+              <pre className='rslt-msg-error'>{message.messages?.map((item) => item.content).join('\n')}</pre>
             </div>
-          ) : (
-            <div className="rslt-msg-box">
-              <div className='rslt-tit'>{cont.message}</div>
-            </div>
-          )}
+          ) : null}
 
-          {cont.generated_sql && (
+          {message.sql && (
             <div className="rslt-msg-box">
               <div className='rslt-tit'>SQL：</div>
               <pre className='rslt-msg-code'>
                 <code>
-                  {cont.generated_sql}
+                  {message.sql}
                 </code>
               </pre>
             </div>
           )}
 
-          {cont.explanation && (
+          {message.explanation && (
             <div className="rslt-msg-box">
               <div className='rslt-tit'>解释：</div>
-              <pre className='rslt-msg-table'>{`${cont.explanation}`}</pre>
+              <pre className='rslt-msg-table'>{`${message.explanation}`}</pre>
             </div>
           )}
 
-          {cont.dynamic_params?.length > 0 && (
+          {message.dynamic_params && message.dynamic_params.length > 0 && (
             <div className="rslt-msg-box">
               <div className='rslt-tit'>参数：</div>
               <div className='rslt-msg-table'>
@@ -64,7 +60,7 @@ const Result: React.FC<ResultProps> = (props: ResultProps) => {
                   <span>说明</span>
                   <span>默认值</span>
                 </div>
-                {cont.dynamic_params?.map((item) => (
+                {message.dynamic_params.map((item) => (
                   <div key={item.param_name} className='rslt-msg-tbl-row'>
                     <span>{item.param_name}</span>
                     <span>{item.remark}</span>
@@ -84,6 +80,8 @@ const Result: React.FC<ResultProps> = (props: ResultProps) => {
                 }) :
                 config.slot?.resultBottom :
               null}
+
+            {message.operation || null}
             {/* <button className="opt-button apply-sql" title="应用SQL">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 8L7 12M7 12L13 6M7 12H3M7 12H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
