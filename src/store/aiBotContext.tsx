@@ -116,8 +116,15 @@ function botReducer(state: BotState, action: BotAction): BotState {
       };
 
     case 'UPDATE_MESSAGE':
+      // 替换已存在的消息
       let msgs = [...state.messages]
-      msgs.splice(state.messages.length - 1, 1, action.payload)
+      let newMsg = action.payload
+      let oldMsg = msgs.find(msg => msg.id === newMsg.id)
+      msgs.splice(oldMsg ? msgs.indexOf(oldMsg) : -1, 1, {
+        ...oldMsg || {},
+        ...newMsg
+      })
+
       return {
         ...state,
         messages: msgs
