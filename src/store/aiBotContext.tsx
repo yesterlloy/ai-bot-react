@@ -189,6 +189,7 @@ export interface IConfig {
 
     // 结果下部
     resultBottom?: ReactNode | [string | React.FunctionComponent<any> | React.ComponentClass<any>, any];
+    buttons?: ReactNode | [string | React.FunctionComponent<any> | React.ComponentClass<any>, any];
   },
   hook?: {
     beforeSendMessage?: (body: IBaseInfo, config: IConfig) => Boolean;
@@ -231,9 +232,9 @@ export function BotProvider({ children, config }: ProviderProps) {
   const setInputValue = (value: string) =>
     dispatch({ type: 'SET_INPUT_VALUE', payload: value });
 
-  const sendMessage = (msgStr?: string) => {
+  const sendMessage = (msgStr?: string, requestBody?: IBaseInfo) => {
     console.log('sendMessage config', config)
-    let bd = config?.baseInfo || {}
+    let bd = requestBody || config?.baseInfo || {}
     if (state.deepThinking) {
       bd.nl_query = msgStr || state.inputValue
     } else {

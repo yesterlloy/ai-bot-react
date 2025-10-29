@@ -48,14 +48,20 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
     if (!textarea) return;
 
     // 重置高度以获取真实内容高度
-    textarea.style.height = 'auto';
+    // textarea.style.height = 'auto';
 
     // 获取单行高度（以计算8行的最大高度）
     const lineHeight = parseInt(getComputedStyle(textarea).lineHeight, 10) || 24;
-    const maxHeight = lineHeight * 8; // 8行的最大高度
+    const maxHeight = lineHeight * 10; // 8行的最大高度
 
     // 设置textarea高度，但不超过最大高度
-    const scrollHeight = textarea.scrollHeight;
+    let scrollHeight = textarea.scrollHeight;
+    console.log('scrollHeight', scrollHeight);
+    if (scrollHeight < 60) {
+      scrollHeight = lineHeight * 4;
+    }
+    console.log('scrollHeight', scrollHeight);
+    console.log('maxHeight', maxHeight);
     textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
   };
 
@@ -64,7 +70,7 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
     if (textareaRef.current) {
       adjustTextareaHeight();
     }
-  }, []);
+  }, [textareaRef.current]);
 
   // 当inputValue变化时调整高度（例如外部设置值时）
   React.useEffect(() => {
@@ -88,7 +94,6 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
             placeholder="输入你的问题..."
             value={inputValue}
             onChange={handleInputChange}
-            disabled={isTyping}
             autoFocus={isOpen}
             onKeyUp={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -102,6 +107,10 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
 
         {/* 按钮区域 */}
         <div className="chat-buttons-area">
+          {config.slot?.buttons ? (
+            // 处理button的渲染 
+            Array.isArray(config.slot?.buttons) ? config.slot.buttons.map((it => it)) : config.slot?.buttons
+          ) : null}
           {config.hideDeepThinking ? null : (
             <button
               className={`deep-thinking-button ${state.deepThinking ? 'active' : ''}`}
@@ -118,11 +127,12 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
             onClick={handleSendMessage}
             disabled={!state.inputValue && !isTyping}
             aria-label={isTyping ? "停止" : "发送"}
+            title={isTyping ? "停止" : "发送"}
           >
             {isTyping ? (
               // 停止图标
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <rect x="5" y="5" width="14" height="14" rx="2" ry="2"></rect>
               </svg>
             ) : (
               // 向上箭头图标

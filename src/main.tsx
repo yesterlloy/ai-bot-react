@@ -52,9 +52,7 @@ createRoot(document.getElementById('root')!).render(
       //   sseUrl: 'http://192.168.0.216:8000/generate-sql',
       sseUrl: '/report-ai/generate-sql',
       name: "SQL助手",
-      slot: {
-        inputTop: ['div', { id: 'aa' }]
-      }
+
     }}>
       <App />
     </BotProvider>

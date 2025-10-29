@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
-import { useBot,  } from '@/store/aiBotContext'
+import { useBot, } from '@/store/aiBotContext'
 import type { IMessage } from '@/store/aiBotContext'
 import Message from '../Message'
 
 type ChatMessageProps = {
-  message?: IMessage
+    message?: IMessage
 }
 
 const ChatMessage: React.FC<ChatMessageProps> = () => {
@@ -12,14 +12,20 @@ const ChatMessage: React.FC<ChatMessageProps> = () => {
     const { state, config } = useBot()
 
 
-  const chatContainerRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // 自动滚动到底部
-  useEffect(() => {
-    if (chatContainerRef.current && state.isOpen) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [state.messages, state.isOpen]);
+    // 自动滚动到底部
+    // 添加缓动效果
+    useEffect(() => {
+        if (chatContainerRef.current && state.isOpen) {
+            //   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;    
+            // 添加缓动效果
+            chatContainerRef.current?.scrollTo({
+                top: chatContainerRef.current.scrollHeight,
+                behavior: 'smooth',
+            })
+        }
+    }, [state.messages, state.isOpen]);
 
     return (
         <div className="chat-messages" ref={chatContainerRef}>

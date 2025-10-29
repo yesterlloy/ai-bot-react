@@ -27,7 +27,7 @@
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s ease;
-  min-height: 97px;
+  height: auto;
 }
 
 .chat-textarea:focus {
@@ -46,7 +46,7 @@
   gap: 0.75rem;
 }
 
-.deep-thinking-button {
+.deep-thinking-button, .new-btn {
   line-height: 24px;
   font-size: 14px;
   padding: 0 10px;
@@ -103,8 +103,10 @@
 
 /* 发送中状态 */
 .send-button.sending {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  background: #fff;
+  color: #333;
   animation: pulse 1.5s ease-in-out infinite;
+  border: 1px solid #333;
 }
 
 .send-button.sending:hover:not(:disabled) {
