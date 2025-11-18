@@ -56,12 +56,9 @@ const ChatInputArea: React.FC<ChatInputAreaProps> = () => {
 
     // 设置textarea高度，但不超过最大高度
     let scrollHeight = textarea.scrollHeight;
-    console.log('scrollHeight', scrollHeight);
     if (scrollHeight < 60) {
       scrollHeight = lineHeight * 4;
     }
-    console.log('scrollHeight', scrollHeight);
-    console.log('maxHeight', maxHeight);
     textarea.style.height = Math.min(scrollHeight, maxHeight) + 'px';
   };
 

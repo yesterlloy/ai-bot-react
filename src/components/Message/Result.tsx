@@ -12,7 +12,6 @@ interface ResultProps {
 const Result: React.FC<ResultProps> = (props: ResultProps) => {
   const { message } = props
   // let cont: ResultMessage = JSON.parse(message.content)
-  console.log('Result', message)
   const { config } = useBot()
 
   return (

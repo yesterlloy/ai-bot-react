@@ -233,7 +233,6 @@ export function BotProvider({ children, config }: ProviderProps) {
     dispatch({ type: 'SET_INPUT_VALUE', payload: value });
 
   const sendMessage = (msgStr?: string, requestBody?: IBaseInfo) => {
-    console.log('sendMessage config', config)
     let bd = requestBody || config?.baseInfo || {}
     if (state.deepThinking) {
       bd.nl_query = msgStr || state.inputValue
@@ -263,7 +262,6 @@ export function BotProvider({ children, config }: ProviderProps) {
         // 使用stateRef.current获取最新状态
         const latestState = stateRef.current;
         let data: IMessage | null = parseChunk(chunk)
-        console.log('chunk', latestState.isTyping, data);
 
         // 自定义hook 接收后处理
         if (config.hook?.afterReceivedMessage) {
@@ -300,12 +298,10 @@ export function BotProvider({ children, config }: ProviderProps) {
 
         dispatch({ type: 'ADD_MESSAGE', payload: data });
       },
-      onComplete: (result: string) => {
-        console.log('result', result);
+      onComplete: () => {
         dispatch({ type: 'SET_TYPING', payload: false });
       },
       onError: (error: Error) => {
-        console.log('error', error);
         dispatch({
           type: 'ADD_MESSAGE', payload: {
             id: Date.now() + '',

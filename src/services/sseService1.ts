@@ -54,7 +54,7 @@ export class SSEClient {
     try {
       // 构建URL参数
       let url = this.config.url;
-      
+
       // 对于GET请求，可以将参数附加到URL
       if (this.config.method === 'GET' && this.config.body) {
         const params = new URLSearchParams();
@@ -89,7 +89,7 @@ export class SSEClient {
         if (this.config.onError) {
           this.config.onError(error);
         }
-        
+
         // 处理重连逻辑
         this.handleReconnect();
       };
@@ -128,9 +128,8 @@ export class SSEClient {
 
     // 设置重连定时器
     this.reconnectTimeout = setTimeout(() => {
-      console.log(`Attempting to reconnect (${this.retries}/${this.config.maxRetries})...`);
       this.connect();
-    }, this.config.retryInterval) ;
+    }, this.config.retryInterval);
   }
 
   /**
@@ -138,7 +137,7 @@ export class SSEClient {
    */
   public close(): void {
     this.isClosed = true;
-    
+
     // 清除重连定时器
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout);
@@ -191,10 +190,10 @@ export async function createSSEWithPost<T>(
       // 使用onDownloadProgress处理流式响应
       onDownloadProgress: (progressEvent) => {
         if (isAborted) return;
-        
+
         const xhr = progressEvent.target as XMLHttpRequest;
         const responseText = xhr.responseText;
-        
+
         if (responseText && onChunk) {
           // 简单分割事件流数据
           const lines = responseText.split('\n');

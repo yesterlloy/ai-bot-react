@@ -25,6 +25,10 @@ export default defineConfig(() => ({
     }
   },
   build: {
+    // 使用esbuild移除console和debugger语句
+    esbuild: {
+      drop: ['console', 'debugger']
+    },
     // 库模式配置
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

@@ -16,7 +16,6 @@ interface ChatModalProps {
 
 const ChatModal: React.FC<ChatModalProps> = () => {
   const { state, toggleOpen, config } = useBot()
-  console.log('messages', state.messages)
 
   return (
     <div className={`chat-wrapper ${state.isOpen ? 'open' : ''}`}>
